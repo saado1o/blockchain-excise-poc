@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Citizen Portal{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Citizen Portal: Pay Tax & Vehicle Services</h2>
+
+<section class="mb-5">
+  <h3 class="text-success">Pay Tax</h3>
+  <form id="payTaxForm" class="mb-3">
+    <input class="form-control mb-2" type="text" id="citizenName" placeholder="Your Name" required />
+    <input class="form-control mb-2" type="text" id="cnic" placeholder="CNIC" required />
+    <input class="form-control mb-2" type="text" id="assetId" placeholder="Vehicle/Property ID" required />
+    <input class="form-control mb-2" type="number" id="amount" placeholder="Amount" required />
+    <button type="submit" class="btn btn-success">Pay Tax</button>
+  </form>
+  <div id="taxResponse" class="text-success fw-bold"></div>
+</section>
+
+<section class="mb-5">
+  <h3 class="text-success">Vehicle Registration</h3>
+  <form id="vehicleRegisterForm" class="mb-3">
+    <input class="form-control mb-2" type="text" id="vehicleIdReg" placeholder="Vehicle ID" required />
+    <input class="form-control mb-2" type="text" id="ownerCNICReg" placeholder="Owner CNIC" required />
+    <button type="submit" class="btn btn-success">Register Vehicle</button>
+  </form>
+  <div id="vehicleRegisterResponse" class="text-success fw-bold"></div>
+</section>
+
+<section class="mb-5">
+  <h3 class="text-success">Apply for Number Plate</h3>
+  <form id="numberPlateApplyForm" class="mb-3">
+    <input class="form-control mb-2" type="text" id="vehicleIdPlate" placeholder="Vehicle ID" required />
+    <button type="submit" class="btn btn-success">Apply Number Plate</button>
+  </form>
+  <div id="numberPlateApplyResponse" class="text-success fw-bold"></div>
+</section>
+
+<section class="mb-5">
+  <h3 class="text-success">Request Ownership Transfer</h3>
+  <form id="ownershipTransferForm" class="mb-3">
+    <input class="form-control mb-2" type="text" id="vehicleIdTransfer" placeholder="Vehicle ID" required />
+    <input class="form-control mb-2" type="text" id="newOwnerCNIC" placeholder="New Owner CNIC" required />
+    <button type="submit" class="btn btn-success">Request Ownership Transfer</button>
+  </form>
+  <div id="ownershipTransferResponse" class="text-success fw-bold"></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='citizen.js') }}"></script>
+{% endblock %}

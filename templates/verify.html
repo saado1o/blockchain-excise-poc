@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Verify Vehicle{% endblock %}
+
+{% block content %}
+<h2>Verify Vehicle Tax Payment & Number Plate</h2>
+<form id="verifyVehicleForm" class="mb-3">
+  <input id="cnicOrVehicleId" class="form-control mb-2" placeholder="Enter CNIC or Vehicle ID" required />
+  <button type="submit" class="btn btn-success">Verify</button>
+</form>
+<div id="verifyVehicleResult" aria-live="polite" style="white-space: pre-wrap;"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('verifyVehicleForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('cnicOrVehicleId').value.trim();
+  if (!id) return;
+
+  const res = await fetch(`/api/verify_vehicle/${encodeURIComponent(id)}`);
+  const data = await res.json();
+  const outputEl = document.getElementById('verifyVehicleResult');
+
+  if (res.ok) {
+    let text = 'Tax Payments:\n';
+    if (data.payments.length === 0) text += 'None found.\n';
+    else {
+      data.payments.forEach(p => {
+        text += `Receipt: ${p.receiptId} | Amount: ${p.amount} | Date: ${p.paymentDate}\n`;
+      });
+    }
+    text += '\nVehicle Info:\n';
+    if (!data.vehicle.vehicleId) text += 'No vehicle found for given ID or CNIC.';
+    else text += `Vehicle ID: ${data.vehicle.vehicleId}\nNumber Plate: ${data.vehicle.numberPlate || 'None'}\nOwner CNIC: ${data.vehicle.ownerCNIC}`;
+    outputEl.textContent = text;
+  } else {
+    outputEl.textContent = data.error || 'Error fetching data.';
+  }
+});
+</script>
+{% endblock %}
